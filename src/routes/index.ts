@@ -1,0 +1,40 @@
+import teacherPortalRoutes from './teacherPortalRoutes';
+import noteRoutes from './noteRoutes';
+import bulletinRoutes from './bulletinRoutes';
+import etablissementRoutes from './etablissementRoutes';
+import mediaRoutes from './mediaRoutes';
+import authRoutes from './authRoutes';
+import evaluationRoutes from './evaluationRoutes';
+import teacherRoutes from './teacherRoutes';
+import matiereRoutes from './matiereRoutes';
+import { Router } from 'express';
+import periodeRoutes from './periodeRoutes';
+import healthRoutes from './healthRoutes';
+import niveauScolaireRoutes from './niveauScolaireRoutes';
+import cycleRoutes from './cycleRoutes';
+import niveauClasseRoutes from './niveauClasseRoutes';
+import classeRoutes from './classeRoutes';
+import studentRoutes from './studentRoutes';
+import inscriptionRoutes from './inscriptionRoutes';
+
+const router = Router();
+
+router.use('/periodes', periodeRoutes);
+router.use('/matieres', matiereRoutes);
+router.use('/teachers', teacherRoutes);
+router.use('/teacher', teacherPortalRoutes);
+router.use('/evaluations', evaluationRoutes);
+router.use('/notes', noteRoutes);
+router.use('/bulletins', bulletinRoutes);
+router.use('/etablissement', etablissementRoutes);
+router.use('/media', mediaRoutes);
+router.use('/auth', authRoutes);
+router.use('/health', healthRoutes);
+router.use('/niveaux-scolaires', niveauScolaireRoutes);
+router.use('/cycles', cycleRoutes);
+router.use('/niveaux-classes', niveauClasseRoutes);
+router.use('/classes', classeRoutes);
+router.use('/students', studentRoutes);
+router.use('/inscriptions', inscriptionRoutes);
+
+export default router;
