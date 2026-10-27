@@ -140,7 +140,7 @@ export const teacherPortalService = {
         },
         school: {
           logoRevision: logo?.revision ?? 0,
-          nom: school?.nom ?? 'CPEG Michel Lauret',
+          nom: school?.nom ?? 'CPEG Michel Loiret',
           anneeScolaire: school?.anneeScolaire ?? '',
         },
         classes: allowedClasses.map((item) => ({

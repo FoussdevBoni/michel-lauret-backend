@@ -65,6 +65,20 @@ ligne ; les autorisations hors connexion sont ensuite préparées normalement.
 
 ## Déploiement
 
+Sur Railway, le backend accepte aussi `LEGACY_PASSWORD_HASH_CONFIG_JSON` : le JSON
+complet des paramètres, enregistré comme variable secrète du service backend.
+Cette variable est prioritaire sur le chemin de fichier ; si elle est définie mais
+invalide, la connexion historique reste bloquée. Ne pas la définir vide. Le fichier
+local demeure utilisable lorsque cette variable est absente.
+
+`pnpm exec tsx scripts/prepareLegacyPasswordDeployment.ts` contrôle en lecture seule
+la correspondance des paramètres avec les comptes enseignants historiques, puis
+prépare `.local/railway-auth-variables.env`, privé et ignoré par Git. Importer son
+contenu dans les variables du service backend Railway, puis appliquer le déploiement
+avec le code prenant en charge cette variable. Ne pas placer cette variable dans
+le frontend ou dans une variable VITE_. Le script n’affiche aucune clé et ne modifie
+aucun compte. La correction locale ne configure pas automatiquement Railway.
+
 Le fichier privé `.local/legacy-password-hash-config.json` contient les paramètres
 nécessaires aux comptes qui n'ont pas encore été convertis. L'import le prépare et
 renseigne `LEGACY_PASSWORD_HASH_CONFIG_PATH` dans le fichier local `.env`, sans

@@ -21,6 +21,18 @@ export async function readLegacyHashConfig(path: string) {
   return legacyHashConfigSchema.parse(JSON.parse(contents));
 }
 
+export async function readConfiguredLegacyHashConfig() {
+  const inline = process.env.LEGACY_PASSWORD_HASH_CONFIG_JSON;
+  if (inline !== undefined) {
+    if (!inline.trim() || Buffer.byteLength(inline) > 16384)
+      throw new Error('Configuration de reprise invalide.');
+    return legacyHashConfigSchema.parse(JSON.parse(inline));
+  }
+  return readLegacyHashConfig(
+    process.env.LEGACY_PASSWORD_HASH_CONFIG_PATH || defaultLegacyHashConfigPath,
+  );
+}
+
 // Format Firebase SCRYPT : dérivation scrypt puis AES-256-CTR de la clé du projet.
 // Référence et vecteur indépendant : https://github.com/firebase/scrypt
 // Aucun SDK, appel réseau ou compte de service nécessaire à la connexion.
@@ -72,9 +84,7 @@ export async function verifyConfiguredLegacyPassword(
   input: LegacyPassword,
 ) {
   try {
-    const path =
-      process.env.LEGACY_PASSWORD_HASH_CONFIG_PATH || defaultLegacyHashConfigPath;
-    const config = await readLegacyHashConfig(path);
+    const config = await readConfiguredLegacyHashConfig();
     if (input.configId !== legacyConfigId(config))
       throw new Error('Configuration différente.');
     return await verifyLegacyPassword(password, input, config);
